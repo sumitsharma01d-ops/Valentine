@@ -1,0 +1,273 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFD1DC 0%, #FFC0CB 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photos-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-photo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            animation: float-up 10s linear infinite;
+            opacity: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            object-fit: cover;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 600px;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            color: #D63384;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .question {
+            font-size: 1.6em;
+            color: #495057;
+            margin: 30px 0;
+            font-weight: 500;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            min-height: 80px;
+            align-items: center;
+            position: relative;
+        }
+
+        button {
+            padding: 16px 48px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #yesBtn {
+            background: #D63384;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(214, 51, 132, 0.4);
+            background: #C12874;
+        }
+
+        #noBtn {
+            background: #E9ECEF;
+            color: #6C757D;
+            
+            transition: all 0.1s ease;
+        }
+
+        .message-container {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .photo-container {
+            margin: 30px 0;
+            width: 300px;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-placeholder {
+            color: #ADB5BD;
+            font-size: 1.1em;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .message {
+            margin-top: 30px;
+            font-size: 1.2em;
+            color: #495057;
+            line-height: 1.8;
+        }
+
+        .message p:first-child {
+            font-size: 1.4em;
+            color: #D63384;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .message p:nth-child(2) {
+            font-style: italic;
+            color: #6C757D;
+            font-size: 1em;
+        }
+
+        .message p:last-child {
+            margin-top: 25px;
+            font-size: 1.5em;
+            color: #D63384;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .celebration {
+            display: none;
+            font-size: 3em;
+            margin-top: 20px;
+        }
+
+        .emoji {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+.hover-gif {
+    position: absolute;
+    top: -90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    display: none;
+    pointer-events: none;
+}
+
+/* Show GIF when hovering Yes button */
+#yesBtn:hover + #noBtn + .hover-gif,
+#yesBtn:hover ~ .hover-gif {
+    display: block;
+}
+/* Mobile responsive styles */
+@media (max-width: 600px) {
+    .container {
+        padding: 35px 20px;
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .question {
+        font-size: 1.2em;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 15px;
+        min-height: auto;
+    }
+
+    button {
+        padding: 14px 30px;
+        font-size: 1em;
+        width: 80%;
+        max-width: 220px;
+    }
+
+    .photo-container {
+        width: 220px;
+        height: 220px;
+    }
+
+    .message {
+        font-size: 1em;
+    }
+
+    .message p:last-child {
+        font-size: 1.2em;
+    }
+
+    .celebration {
+        font-size: 2em;
+    }
+
+    .emoji {
+        font-size: 2.2em;
+    }
+
+    /* Smaller hover GIF for mobile */
+    .hover-gif {
+        width: 60px;
+        top: -70px;
+    }
+}
+

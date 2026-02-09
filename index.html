@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💕</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="photos-container" id="photosContainer"></div>
+    
+    <!-- Audio element for background music -->
+    <audio id="bgMusic" loop>
+        <source src="/Soniye Aksar 320 Kbps.mp3" type="audio/mpeg">
+        <!-- Replace "your-song.mp3" with your music file -->
+    </audio>
+    
+    <div class="container">
+        <div class="emoji">💝</div>
+        <h1>Hey Diyuuuuu!</h1>
+        <p class="question">Will You Be My Valentine ? 💕</p>
+        
+        <div class="buttons" id="buttonsContainer">
+            <button id="yesBtn">Yes! 💖</button>
+            
+            <button id="noBtn">No 💔</button>
+             <img src="cute.gif" id="hoverGif" class="hover-gif" alt="cute gif">
+        </div>
+        
+        <div class="message-container" id="messageContainer">
+            <div class="photo-container">
+                <img id="couplePhoto" src="/WhatsApp Image 2026-02-09 at 1.28.19 PM.jpeg" alt="Our Photo" style="display: none;">
+                <div class="photo-placeholder" id="photoPlaceholder">
+                    📷 Your photo will appear here<br>
+                    <small>Add your photo by replacing the image source</small>
+                </div>
+            </div>
+            
+            <div class="message">
+                <p>I knew you'd click Yes!</p>
+                <p>(quite obvious 😉)</p>
+                <p>I love you Diyuuuuu so muchhhh! 💕💕💕</p>
+            </div>
+            
+            <div class="celebration" id="celebration">
+                🎉 💖 🎊 💝 🎉 💖 🎊
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Array of photo URLs - Add your photos here!
+        const photoUrls = [
+            'photo1.jpeg',  // Replace with your actual photo filenames
+            'photo2.jpeg',
+            'photo3.jpeg',
+            'photo4.jpeg',
+            'photo5.jpeg',
+            'photo6.jpeg',
+            'photo7.jpeg',
+            'photo8.jpeg',
+            'photo9.jpeg',
+
+
+
+            // Add more photos as needed
+        ];
+
+        // Create floating photos
+        function createFloatingPhoto() {
+            const photo = document.createElement('img');
+            photo.classList.add('floating-photo');
+            
+            // Randomly select a photo from the array
+            const randomPhoto = photoUrls[Math.floor(Math.random() * photoUrls.length)];
+            photo.src = randomPhoto;
+            
+            photo.style.left = Math.random() * 100 + '%';
+            photo.style.animationDuration = (Math.random() * 4 + 8) + 's';
+            photo.style.animationDelay = Math.random() * 2 + 's';
+            
+            // Vary the size slightly for visual interest
+            const size = Math.random() * 30 + 70; // 70-100px
+            photo.style.width = size + 'px';
+            photo.style.height = size + 'px';
+            
+            document.getElementById('photosContainer').appendChild(photo);
+
+            setTimeout(() => {
+                photo.remove();
+            }, 12000);
+        }
+
+        // Generate photos continuously
+        setInterval(createFloatingPhoto, 800);
+
+        // Button interactions
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const messageContainer = document.getElementById('messageContainer');
+        const celebration = document.getElementById('celebration');
+        const buttonsContainer = document.getElementById('buttonsContainer');
+        const bgMusic = document.getElementById('bgMusic');
+        const couplePhoto = document.getElementById('couplePhoto');
+        const photoPlaceholder = document.getElementById('photoPlaceholder');
+
+        // No button runs away from mouse - impossible to click!
+        function moveNoButton() {
+            const yesBtnRect = yesBtn.getBoundingClientRect();
+            const noBtnRect = noBtn.getBoundingClientRect();
+            
+            let randomX, randomY;
+            let attempts = 0;
+            const maxAttempts = 20;
+            
+            // Keep trying until we find a position that doesn't overlap with Yes button
+            do {
+                const maxX = window.innerWidth - noBtnRect.width - 100;
+                const maxY = window.innerHeight - noBtnRect.height - 100;
+                
+                randomX = Math.random() * maxX + 50;
+                randomY = Math.random() * maxY + 50;
+                
+                // Check distance from Yes button
+                const centerYesX = yesBtnRect.left + yesBtnRect.width / 2;
+                const centerYesY = yesBtnRect.top + yesBtnRect.height / 2;
+                const centerNoX = randomX + noBtnRect.width / 2;
+                const centerNoY = randomY + noBtnRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(centerNoX - centerYesX, 2) + 
+                    Math.pow(centerNoY - centerYesY, 2)
+                );
+                
+                // If distance is safe (at least 200px away), use this position
+                if (distance > 200) {
+                    break;
+                }
+                
+                attempts++;
+            } while (attempts < maxAttempts);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('mouseenter', moveNoButton);
+        noBtn.addEventListener('mousemove', moveNoButton);
+        
+        // Also move on click attempt (just in case)
+        noBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            moveNoButton();
+        });
+
+        // Yes button shows message, photo, and plays music
+        yesBtn.addEventListener('click', () => {
+            buttonsContainer.style.display = 'none';
+            messageContainer.style.display = 'block';
+            celebration.style.display = 'block';
+            
+            // Play music
+            bgMusic.play().catch(error => {
+                console.log('Music autoplay prevented:', error);
+                // Some browsers block autoplay, user interaction needed
+            });
+            
+            // Show photo if source is set
+            // To add your photo: replace 'your-photo.jpg' with your image file
+            // Example: couplePhoto.src = 'your-photo.jpg';
+            const photoSrc = couplePhoto.src || couplePhoto.getAttribute('src');
+            if (photoSrc && photoSrc !== '' && photoSrc !== window.location.href) {
+                couplePhoto.style.display = 'block';
+                photoPlaceholder.style.display = 'none';
+            }
+            
+            // Create extra floating photos for celebration
+            for (let i = 0; i < 15; i++) {
+                setTimeout(createFloatingPhoto, i * 100);
+            }
+        });
+
+        // Initial photo creation
+        for (let i = 0; i < 10; i++) {
+            createFloatingPhoto();
+        }
+    </script>
+</body>
+</html>
